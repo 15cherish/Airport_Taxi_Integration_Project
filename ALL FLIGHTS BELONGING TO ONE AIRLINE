@@ -1,0 +1,28 @@
+CREATE OR REPLACE PROCEDURE F_INFO (id VARCHAR2 ) AS
+CURSOR PASSINDETAILS is
+select fl.FLIGHT_CODE, ai.airlineid, ai.al_name
+from Flight fl, AIRLINE ai
+where fl.airlineid = ai.airlineid
+
+AND ai.airlineid = id;
+
+PASSDETAILS PASSINDETAILS%rowtype;
+BEGIN
+Open PASSINDETAILS ;
+LOOP
+fetch PASSINDETAILS into PASSDETAILS;
+EXIT WHEN PASSINDETAILS%NOTFOUND;
+dbms_output.put_line (PASSDETAILS.FLIGHT_CODE || '  ' || PASSDETAILS.AIRLINEID || '  ' ||
+PASSDETAILS.AL_NAME);
+END LOOP;
+close PASSINDETAILS;
+END;
+
+declare
+ID VARCHAR(20);
+
+begin
+
+ID := 'QR';
+f_info(ID);
+end;
