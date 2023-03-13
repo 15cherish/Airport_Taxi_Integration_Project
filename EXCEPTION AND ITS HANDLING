@@ -1,0 +1,23 @@
+declare
+s flight.source%type;
+d flight.destination%type;
+invalid_entry exception;
+begin
+select source , destination into s,d from flight where source = destination;
+if s = d then
+raise invalid_entry;
+end if;
+
+exception
+when too_many_rows then
+dbms_output.put_line('kindly recheck the entries made !');
+
+when no_data_found then
+dbms_output.put_line('All your entries are correct !');
+
+when invalid_entry then
+dbms_output.put_line('Kindly check the flight source and destination !');
+end;
+
+INSERT INTO FLIGHT(FLIGHT_CODE, SOURCE, DESTINATION, ARRIVAL, DEPARTURE, STATUS, DURATION, FLIGHTTYPE,  AIRLINEID)
+VALUES('AA467','SFO','SFO','18:10','18:55','On-time','21hrs','Non-stop','AA');
